@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Attrition Prediction</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #fef9ef;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(90deg, #ff9a9e, #fad0c4);
+            border-radius: 15px;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.2rem;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #ff6f61;
+            font-weight: bold;
+            padding: 8px 15px;
+            background-color: #fff3e0;
+            border-radius: 20px;
+            transition: background-color 0.3s;
+        }
+
+        nav a:hover {
+            background-color: #ffd5cd;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background-color: #fff;
+            border: 2px solid #ffd5cd;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(255, 183, 183, 0.2);
+            transition: transform 0.3s;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        input[type="number"], select, button {
+            margin-bottom: 20px;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 1em;
+            box-sizing: border-box;
+            width: 100%;
+        }
+
+        input[type="number"]:focus, select:focus {
+            outline: none;
+            border-color: #4CAF50;
+            box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+        }
+
+
+        .card:hover {
+            transform: scale(1.05);
+        }
+
+        .card h2 {
+            font-size: 1.8rem;
+            color: #ff6f61;
+            margin-bottom: 15px;
+        }
+
+        .card ul {
+            list-style: none;
+        }
+
+        .card ul li {
+            background-color: #fffcf9;
+            margin: 8px 0;
+            padding: 10px;
+            border-radius: 5px;
+            border-left: 4px solid #ff6f61;
+        }
+
+        .reviews {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .review {
+            flex: 1;
+            background: linear-gradient(120deg, #ffecd2, #fcb69f);
+            border-radius: 15px;
+            padding: 15px;
+            color: #333;
+            min-width: 250px;
+        }
+
+        .review p {
+            margin-bottom: 10px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 15px;
+            margin-top: 20px;
+            background: linear-gradient(90deg, #fbc2eb, #a6c1ee);
+            border-radius: 15px;
+            color: #fff;
+        }
+
+        footer p {
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 600px) {
+            nav {
+                flex-direction: column;
+            }
+
+            .reviews {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Employee Attrition Prediction</h1>
+        <p>Bye-Bye Burnout: Predicting Who's Packing Up Before They Do!</p>
+    </header>
+
+    <nav>
+        <a href="#">Employee Demographics</a>
+        <a href="#">Job Satisfaction</a>
+        <a href="#">Work Life Balance</a>
+        <a href="#">Prediction</a>
+    </nav>
+
+    <div class="container">
+        <div class="card">
+            <form action="{{url_for('predict')}}" method="post">
+            <h2>Basic Information</h2>
+            <label>Enter your Age</label>
+            <input type="number" name="Age" placeholder="Age" required="required" />
+            <label>Enter Your Daily Rate</label>
+            <input type="number" name="Daily-rate" placeholder="In Rupees" min="1" required="required" />
+            <label>Enter Distance from Home</label>
+            <input type="number" name="DistanceFromHome" placeholder="Between (1-5)" required="required" />
+            <label>Environment Satisfaction</label>
+            <input type="number" name="EnvironmentSatisfaction" placeholder="Between (1 to 4)" required="required" />
+            <label>Jon Involvement</label>
+            <input type="number" name="JobInvolvement" placeholder="Between(1 to 4)" required="required" />
+            <label>Job Level</label>
+            <input type="number" name="JobLevel" placeholder="Between (1 to 5)" required="required" />
+            <label>JobSatisfaction</label>
+            <input type="number" name="JobSatisfaction" placeholder="Between (1 to 4)"  required="required" />
+            <label>Chose your MaritalStatus</label>
+            <form method="POST" action="/your_route">
+            <select name="MaritalStatus" required="required">
+                <option value="" disabled selected> Choose</option>
+                <option value="1">Single</option>
+                <option value="2">Married</option>
+                <option value="3">Divorced</option>
+            </select>
+        </form>
+            <label>Enter Your Monthly Income </label>
+            <input type="number" name="MonthlyIncome" placeholder="In Rupees" min="1000" required="required" />
+            <label>Overtime</label>
+            <input type="number" name="OverTime" placeholder="(0 = No, 1 = Yes)"  required="required" />
+            <label>Relationship Satisfaction</label>
+            <input type="number" name="RelationshipSatisfaction" placeholder="Between (1 to 4)"  required="required" />
+            <label>Enter the Stock option Level</label>
+            <input type="number" name="StockOptionLevel" placeholder="Between (1-3)"  required="required" />
+            
+            
+           
+        </form>
+        </div>
+
+        <div class="card">
+            <h2>Work Life</h2>
+            <form action="{{url_for('predict')}}" method="post">
+            <label>Enter Total Working Years</label>
+            <input type="number" name="TotalWorkingYears"   required="required" />
+            <label>Training Times LastYear</label>
+            <input type="number" name="TrainingTimesLastYear" required="required" />
+            <label>Work Life Balance</label>
+            <input type="number" name="WorkLifeBalance" placeholder="Between (1 to 4)"  required="required" />
+            <label>Enter Years At Company </label>
+            <input type="number" name="YearsAtCompany"  required="required" />
+            <label>Enter Years in Current Role</label>
+            <input type="number" name="YearsInCurrentRole" placeholder="Years In Current Role" min="0" required="required" />
+            <label>Years Since Last Promotion</label>
+            <input type="number" name="YearsSinceLastPromotion" placeholder="No. of Years since last Promotion"  required="required" />
+            <label>Years With Current Manager</label>
+            <input type="number" name="YearsWithCurrManager"  required="required" />
+            <label>Bussiness Travel</label>
+                <select name="Bussiness_Travel" required="required">
+                    <option value="" disabled selected> Frequently or Rarely</option>
+                    <option value="1">Frequently</option>
+                    <option value="2">Rarely</option>
+                </select>
+           
+                
+                
+            </form>
+        </div>
+
+        <div class="card">
+            <form action="{{url_for('predict')}}" method="post"></form>
+            <h2>Education And Job Life</h2>
+            <select name="Department" required="required">
+                <option value="" disabled selected>Choose your Department</option>
+                <option value="1">Research and Development</option>
+                <option value="2">Sales</option>
+            </select>
+            <select name="EducationField" required="required">
+                <option value="" disabled selected>Choose your Education</option>
+                <option value="1">Marketing</option>
+                <option value="2">Medical</option>
+                <option value="3">others</option>
+                <option value="4">Technical Degree</option>
+            </select>
+            <select name="JobRole" required="required">
+                <option value="" disabled selected>Choose your Job role</option>
+                <option value="1">Human Resources</option>
+                <option value="2">Laboratory Technician</option>
+                <option value="3">Manager</option>
+                <option value="4">Manufacturing Director</option>
+                <option value="5">Research Director</option>
+                <option value="6">Research Scientist</option>
+                <option value="7">Sales Executive</option>
+                <option value="8">Sales Representative</option>
+            </select>
+            
+               
+                
+               
+                
+        </form>
+
+        </div>
+    </div>
+
+    <footer>
+        <form action="{{url_for('predict')}}" method="post">
+            <button type="submit" class="btn btn-primary btn-block btn-large">Predict</button>
+        </form>
+        {% if prediction %}
+        <h3 id="output">{{ prediction }}</h3>
+        {% endif %}
+    </footer>
+    
+</body>
+</html>
